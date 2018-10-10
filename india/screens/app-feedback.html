@@ -1,0 +1,105 @@
+<style>
+    .tinycard {
+        background: white;
+        box-shadow: -1px 1px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 10px;
+        padding-top: 15px;
+        min-height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tinycard .icon {
+        margin-bottom: 15px !important;
+    }
+
+#app-feedback-screen-wrapper {
+        position: absolute;
+        margin: 0px;
+        /* border: 2px solid red; */
+        top: 1px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        overflow: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+<div id="app-feedback-screen-wrapper">
+    <div class="ui container" style="margin-top:20px;">
+        <h2 class="ui header center aligned">
+            How do you rate the
+            <div class="sub header">Tech Expo App</div>
+        </h2>
+        <div class="ui segment padded center aligned blue raised">
+            <div class="ui massive star rating" id="app-rating" data-rating="5"></div>
+            <br>
+        </div>
+
+        <h2 class="ui header center aligned">
+            Anything else ?
+            <div class="sub header">feel free to suggest ideas</div>
+        </h2>
+        <div class="ui segment padded center aligned green raised">
+            <div class="ui form">
+                <div class="field">
+                    <textarea id="app-feedback-message"></textarea>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div style="text-align:center;">
+            <button class="ui tiny blue button" id="feedback-submit-button">Submit App Feedback</button>
+        </div>
+    </div>
+</div>
+
+<template id="thanks-message">
+    <div class="ui segment center aligned middle aligned raised" style="margin-top:30px;max-width:300px;margin:auto;margin-top:60px;">
+        <h2 class="ui icon header">
+            <i class="thumbs up outline icon teal animated pulse infinite"></i>
+            <div class="content" style="margin-top:10px;">
+                <span class="animated fadeInDown _1">{{first_name}},</span>
+                <div class="sub header animated fadeInUp _2">Thanks for your feedback on the App</div>
+            </div>
+        </h2>
+    </div>
+</template>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('#app-rating')
+            .rating({
+                initialRating: 5,
+                maxRating: 5
+            });
+
+        $('#feedback-submit-button').off('click').on('click', function () {
+            var stars = $("#app-rating").rating("get rating");
+            var feedback_message = $("#app-feedback-message").val();
+
+            var feedback_object = {
+                user_id: App.User.id,
+                user_name: App.User.firstname + " " + App.User.lastname,
+                user_email: App.User.email,
+                stars: stars,
+                feedback_message: feedback_message.trim(),
+            };
+
+            App.Events.emit("save-app-feedback-api", feedback_object);
+
+            console.log(feedback_object);
+
+            var template = $('#thanks-message').html();
+            var html = Mustache.to_html(template, {
+                first_name: App.User.firstname
+            });
+            $("#app-feedback-screen-wrapper").html(html);
+        });
+
+    });
+</script>

@@ -78,6 +78,7 @@
             <div class="sub header">Past events on campus.</div>
         </h3>
         <div class="scrolling-wrapper-flexbox" id="items-holder-1">
+            <button class="ui button red" onclick="App.Events.emit('show-india-app')">INDIA</button>
         </div>
     </div>
 </div>
@@ -186,6 +187,14 @@
     $(function() {
         App.Events.listen("show-haloween-app", function() {
             App.base_url = App.store_url + "app_1";
+            jQuery.getScript(App.base_url + "/js/init.js")
+                .done(function() {
+                    alert.log("Loaded new path");
+                });
+        });
+
+        App.Events.listen("show-india-app", function() {
+            App.base_url = App.store_url + "india";
             jQuery.getScript(App.base_url + "/js/init.js")
                 .done(function() {
                     alert.log("Loaded new path");
