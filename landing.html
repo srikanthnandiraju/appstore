@@ -184,7 +184,7 @@
 
     $(function() {
         App.Events.listen("show-haloween-app", function() {
-            App.base_url = "http://127.0.0.1:60218/app_1";
+            App.base_url = App.store_url + "app_1";
             jQuery.getScript(App.base_url + "/js/init.js")
                 .done(function() {
                     console.log("Loaded new path");
