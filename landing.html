@@ -1,0 +1,195 @@
+<style>
+    #home-screen-wrapper {
+        position: absolute;
+        margin: 0px;
+        /* border: 2px solid red; */
+        top: 1px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        overflow: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .scrolling-wrapper-flexbox {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        overflow-x: auto;
+        .scrolling-element {
+            flex: 0 0 auto;
+            margin-right: 3px;
+        }
+    }
+    
+    .scrolling-wrapper-flexbox {
+        width: 100%;
+        padding: 12px 0px;
+        -webkit-overflow-scrolling: touch;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+    
+    .scroll-card {
+        width: 200px;
+        height: 100px;
+        // background: linear-gradient(to top left, #B3E5FC, white) !important;
+        margin: 0px 10px !important;
+        // border: 1px solid #fff !important;
+        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    .news-card {
+        /* border: 1px solid #fff !important; */
+        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3) !important;
+        border-radius: 8px !important;
+        color: white;
+        height: 150px;
+        /* background: linear-gradient(to top left, #1976d2, #2196f3) !important; */
+        cursor: pointer;
+    }
+    
+    .ellipsis {
+        overflow: hidden;
+        // white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>
+<div id="home-screen-wrapper">
+    <img class="animated fadeInDown" src="img/pyplsjc.jpg" alt="" width="100%">
+    <div class="ui container">
+        <h3 class="ui header" style="margin-top:20px;">
+            PayPal In the news
+            <div class="sub header">Latest news coverage on PayPal.</div>
+        </h3>
+        <div class="scrolling-wrapper-flexbox" id="news-items-holder">
+        </div>
+        <h3 class="ui header">
+            Upcomming Events
+            <div class="sub header">Manage your account.</div>
+        </h3>
+        <div class="scrolling-wrapper-flexbox" id="items-holder">
+        </div>
+        <h3 class="ui header">
+            Past Events
+            <div class="sub header">Past events on campus.</div>
+        </h3>
+        <div class="scrolling-wrapper-flexbox" id="items-holder-1">
+        </div>
+    </div>
+</div>
+
+<template id="items-template">
+    {{#items}}
+    <div class="scrolling-element">
+        <div class="ui segment scroll-card">
+            <div class="ui header">{{time_lapsed}}</div>
+            {{text}}
+        </div>
+    </div>
+    {{/items}}
+</template>
+
+<template id="news-items-template">
+    {{#items}}
+    <div class="scrolling-element">
+        <div class="ui basic segment center aligned middle aligned scroll-card news-card {{bgColor}}" data-link-url="{{feedlink}}">
+            <img src="{{image}}" style="height:50px;margin:auto;">
+            <p class="ellipsis ">
+                {{title}}
+            </p>
+        </div>
+    </div>
+    {{/items}}
+</template>
+
+<script>
+    App.feedData = {};
+    var grads = ["red-grad", "blue-grad", "gray-grad", "lime-grad", "pink-grad"];
+
+    function getRandomClass() {
+        var rind = getRandomArbitrary(0, grads.length - 1);
+        console.log(rind);
+        return grads[rind];
+    }
+
+    function getRandomArbitrary(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function loadData(text) {
+        var skey = "'" + escape(text) + "'";
+        if (App.feedData[skey] != undefined) {
+            var itemsFound = App.feedData[skey];
+            renderView(itemsFound);
+        } else {
+            text = encodeURI(text);
+            var yql = encodeURIComponent(
+                "select * from xml where url='https://news.google.com/news/rss/search/section/q/" +
+                text +
+                "/?ned=us&gl=US&hl=en'"
+            );
+            var modifiedItems = [];
+            $.getJSON(
+                "https://query.yahooapis.com/v1/public/yql?q=" +
+                yql +
+                "&format=json&callback=?",
+                function(data) {
+                    if (!data.query.results.rss.channel.item ||
+                        data.query.results.rss.channel.item.length < 1) {
+                        alert("No data found");
+                        return;
+                    }
+                    var items = data.query.results.rss.channel.item;
+                    $.each(items, function(i, item) {
+                        var oneItem = {
+                            feedlink: item.link,
+                            title: item.title, // time_lapsed: //
+                            // moment(item.pubDate).fromNow(),
+                            date: item.pubDate,
+                            description: $(item.description).text(),
+                            richDescription: item.description,
+                            bgColor: getRandomClass(),
+                            col2: $(item.description).find("td:first-child+td").html(),
+                            image: $(item.description)
+                                .find("img:first").attr("src")
+                        };
+                        modifiedItems.push(oneItem);
+                    });
+                    modifiedItems.sort(function(a, b) {
+                        return new
+                        Date(b.date) - new Date(a.date);
+                    });
+
+                    App.feedData[skey] = modifiedItems;
+                    renderView(modifiedItems);
+                });
+        }
+    }
+
+    function renderView(items) {
+        let template = $("#news-items-template").html();
+        let html = Mustache.to_html(template, {
+            items: items
+        });
+        $("#news-items-holder").html(html);
+        $(".news-card").click(function(e) {
+            var link = $(this).attr("data-link-url");
+            //alert(link);
+            App.Utils.showInBrowser(link);
+        });
+    }
+
+    $(function() {
+        App.Events.listen("show-haloween-app", function() {
+            App.base_url = "http://127.0.0.1:60218/app_1";
+            jQuery.getScript(App.base_url + "/js/init.js")
+                .done(function() {
+                    console.log("Loaded new path");
+                });
+        });
+        loadData("PayPal");
+    });
+</script>

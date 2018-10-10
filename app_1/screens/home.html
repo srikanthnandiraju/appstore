@@ -1,0 +1,143 @@
+<style>
+    .tinycard {
+        background: white;
+        box-shadow: -1px 1px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 10px;
+        padding-top: 15px;
+        min-height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .tinycard .icon {
+        margin-bottom: 15px !important;
+    }
+    
+    #home-screen-wrapper {
+        position: absolute;
+        margin: 0px;
+        /* border: 2px solid red; */
+        top: 1px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        overflow: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+<div id="home-screen-wrapper">
+    <img class="animated fadeInDown" src="img/pyplsjc.jpg" alt="" width="100%">
+    <div class="ui container center aligned" id="home-screen">
+        <h2 class="animated fadeInLeft _1 blue" style="margin-top: 20px;">
+            Welcome to PayPal<br>Campus App
+        </h2>
+        <h3 class="animated fadeInRight _1" style="margin-top: -5px;" id="logged-in-user">
+            &nbsp;
+        </h3>
+        <div class="tinycard animated fadeIn _2">
+            <ul style="text-align: left;margin:10px;padding-left:20px;">
+                <li>Explore the technologies powering PayPal ecosystem and network with your fellow employees</li>
+                <li>Visit expo booths and earn points using this mobile app</li>
+                <li>Attend knowledge sharing sessions from your colleagues</li>
+            </ul>
+        </div>
+
+        <div class="ui two column grid animated fadeInUp _1" style="margin-top: 10px;">
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/booth'">
+                    <h4 class="ui icon header">
+                        <i class="calendar outline icon orange"></i>
+                        <div class="content">
+                            Booths
+                            <div class="sub header">Expo booths for the event</div>
+                        </div>
+                    </h4>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/social-feed'">
+                    <h4 class="ui icon header">
+                        <i class="comments outline icon red"></i>
+                        <div class="content">
+                            Social Feed
+                            <div class="sub header">Social feed about event</div>
+                        </div>
+                        </h>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/speakers'">
+                    <h4 class="ui icon header">
+                        <i class="microphone icon brown"></i>
+                        <div class="content">
+                            Speakers
+                            <div class="sub header">Attend sessions</div>
+                        </div>
+                        </h>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/map'">
+                    <h4 class="ui icon header">
+                        <i class="map icon blue"></i>
+                        <div class="content">
+                            Map
+                            <div class="sub header">Exhibit booth layout</div>
+                        </div>
+                        </h>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/checkins'">
+                    <h4 class="ui icon header">
+                        <img src="img/woocoin_logo.png" alt="" width="70" style="margin-bottom:10px;">
+                        <div class="content">
+                            <span id="woocoins-earned">0</span>
+                            <div class="sub header">Checkin's</div>
+                        </div>
+                        </h>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="App.Events.emit('show-welcome-video')">
+                    <h4 class="ui icon header">
+                        <i class="video icon teal"></i>
+                        <div class="content">
+                            Welcome Video
+                            <div class="sub header">Message from CTO</div>
+                        </div>
+                        </h>
+                </div>
+            </div>
+
+        </div>
+        <br>
+        <br>
+    </div>
+</div>
+
+<script>
+    $(function() {
+
+        if (App.User.firstname) {
+            $("#logged-in-user").html(App.User.firstname);
+        }
+
+        var isFirstRun = localStorage.getItem("first_run");
+        if (isFirstRun == undefined) {
+            localStorage.setItem("first_run", "1");
+            App.Events.emit("app-first-run");
+        }
+
+        // if (UserActivity.items.length < 1) {
+        //     $.getJSON(App.apiURL + "/boothactivity/fetch/" + App.User.id, function(result) {
+        //         UserActivity.items = result.payload.data;
+        //         $("#woocoins-earned").html(UserActivity.getCheckinItems().length);
+        //     });
+        // }
+
+    });
+</script>

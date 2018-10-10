@@ -1,0 +1,37 @@
+<style>
+
+</style>
+<div class="ui container center aligned" id="findbeacons-screen">
+</div>
+
+<template id="about-screen-template">
+
+    <div class="tinycard animated fadeIn _2">
+        <ul style="text-align: left;margin:10px;padding-left:20px;">
+            <li>Explore the technologies powering PayPal echo system and network with your fellow employees</li>
+            <li>Visit expo booths and earn WOO coins using this mobile app</li>
+            <li>Attend knowledge sharing sessions from your colleauges</li>
+        </ul>
+    </div>
+
+</template>
+
+
+<script>
+    function updateBeaconList() {
+        BeaconManager.removeOldBeacons();
+        var sortedList = BeaconManager.getSortedBeaconList();
+        var html = '';
+
+        for (var i = 0; i < sortedList.length; ++i) {
+            var beacon = sortedList[i];
+            var htmlBeacon = beacon.url + "<br/>"
+            html += htmlBeacon
+        }
+        document.querySelector('#findbeacons-screen').innerHTML = html;
+    }
+
+    $(function () {
+        setTimeout(BeaconManager.startScan(), 500);
+    });
+</script>
