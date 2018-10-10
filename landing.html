@@ -187,19 +187,24 @@
     $(function() {
         App.Events.listen("show-haloween-app", function() {
             App.base_url = App.store_url + "app_1";
-            jQuery.getScript(App.base_url + "/js/init.js")
-                .done(function() {
-                    alert.log("Loaded new path");
-                });
+            // jQuery.getScript(App.base_url + "/js/init.js")
+            //     .done(function() {
+            //         alert.log("Loaded new path");
+            //     });
+            $.getScript(App.base_url + "/js/init.js", function(jd) {
+                // Call custom function defined in script
+                alert.log("Loaded new path");
+            });
+
         });
 
-        App.Events.listen("show-india-app", function() {
-            App.base_url = App.store_url + "india";
-            jQuery.getScript(App.base_url + "/js/init.js")
-                .done(function() {
-                    alert.log("Loaded new path");
-                });
-        });
+        // App.Events.listen("show-india-app", function() {
+        //     App.base_url = App.store_url + "india";
+        //     jQuery.getScript(App.base_url + "/js/init.js")
+        //         .done(function() {
+        //             alert.log("Loaded new path");
+        //         });
+        // });
         loadData("PayPal");
     });
 </script>
