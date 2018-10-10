@@ -191,20 +191,21 @@
             //     .done(function() {
             //         alert.log("Loaded new path");
             //     });
-            // $.getScript(App.base_url + "/js/init.js", function(jd) {
-            //     // Call custom function defined in script
-            // });
 
-
-            $.ajax({
-                type: "GET",
-                url: App.base_url + "/js/init.js",
-                success: function() {
-                    alert("Loaded new path");
-                },
-                dataType: "script",
-                cache: true
+            $.getScript(App.base_url + "/js/init.js", function(jd) {
+                alert("Loaded new path");
             });
+
+
+            // $.ajax({
+            //     type: "GET",
+            //     url: App.base_url + "/js/init.js",
+            //     success: function() {
+            //         alert("Loaded new path");
+            //     },
+            //     dataType: "script",
+            //     cache: true
+            // });
 
         });
 
