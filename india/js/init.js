@@ -3,6 +3,5 @@ Path.map("#/map").to(function() {
     $("#stage").load(App.base_url + "/screens/polls.html");
 });
 
-
 Path.root("#/map");
 Path.listen();
