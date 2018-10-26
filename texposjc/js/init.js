@@ -2,12 +2,17 @@
 $("#navigation-links").load(App.base_url + "/screens/navigation.html");
 
 // 2. Configure the routes.
-Path.map("#/polls").to(function() {
+Path.map("#/map").to(function() {
     $("#title-text").html("Map");
-    $("#stage").load(App.base_url + "/screens/polls.html");
+    $("#stage").load(App.base_url + "/screens/map.html");
 });
 
-Path.root("#/polls");
+Path.map("#/find-beacons").to(function() {
+    $("#title-text").html("Beacons");
+    $("#stage").load(App.base_url + "/screens/beacons.html");
+});
+
+Path.root("#/map");
 Path.listen();
 
 // 3. Attach events to parent.

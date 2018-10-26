@@ -1,0 +1,77 @@
+<style>
+    .tinycard {
+        background: white;
+        box-shadow: -1px 1px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        padding: 10px;
+        padding-top: 15px;
+        min-height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .tinycard .icon {
+        margin-bottom: 15px !important;
+    }
+</style>
+
+<div class="ui container" style="margin-top:30px;">
+    <h2 class="ui header center aligned animated fadeInDown">
+        Tech Expo 2018 Map
+        <div class="sub header">click on a specific day to see booth map</div>
+    </h2>
+    <div class="ui two column grid" style="margin-top: 10px;">
+        <div class="column center aligned">
+            <div class="tinycard  animated fadeInLeft _1" id="day-1-map">
+                <h4 class="ui icon header">
+                    <i class="map outline icon blue"></i>
+                    <div class="content">
+                        Day 1
+                        <div class="sub header">September 12</div>
+                    </div>
+                </h4>
+            </div>
+        </div>
+        <div class="column center aligned">
+            <div class="tinycard animated fadeInRight _1" id="day-2-map">
+                <h4 class="ui icon header">
+                    <i class="map outline icon orange"></i>
+                    <div class="content">
+                        Day 2
+                        <div class="sub header">September 13</div>
+                    </div>
+                </h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="tinycard  animated zoomIn _1" id="showcase-map" style="margin-top:20px;">
+        <h4 class="ui icon header">
+            <i class="lightbulb outline icon green animated infinite pulse"></i>
+
+            <div class="content">
+                Employee Technology Showcase
+                <div class="sub header">Building 10, Great Hall</div>
+            </div>
+        </h4>
+    </div>
+</div>
+
+
+<script>
+    $(function() {
+
+        // App.Utils.checkVPNConnectivity();
+        // $("#day-1-map").click(function() {
+        //     App.Events.emit('show-day1-map');
+        // });
+        // $("#day-2-map").click(function() {
+        //     App.Events.emit('show-day2-map');
+        // });
+        // $("#showcase-map").click(function() {
+        //     App.Events.emit('showcase-map');
+        // });
+
+    });
+</script>

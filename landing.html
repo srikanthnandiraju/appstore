@@ -35,10 +35,8 @@
     .scroll-card {
         width: 200px;
         height: 100px;
-        // background: linear-gradient(to top left, #B3E5FC, white) !important;
         margin: 0px 10px !important;
-        // border: 1px solid #fff !important;
-        box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3) !important;
+        /* box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3) !important; */
     }
     
     .news-card {
@@ -46,15 +44,49 @@
         box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.3) !important;
         border-radius: 8px !important;
         color: white;
-        height: 150px;
+        font-weight: bold;
+        height: 130px;
         /* background: linear-gradient(to top left, #1976d2, #2196f3) !important; */
+        background: linear-gradient(to bottom right, #00CF92, #009CDE) !important;
+        /* background: white !important; */
         cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .upcoming-event-card {
+        /* border: 1px solid #fff !important; */
+        cursor: pointer;
+        border-radius: 8px !important;
+        color: white;
+        height: 150px;
+        width: 200px;
+        padding-bottom: 10px !important;
+        /* background: linear-gradient(to top left, #1976d2, #2196f3) !important; */
+        /* background: linear-gradient(to bottom right, #00CF92, #009CDE) !important; */
+        /* background: white !important; */
+        /* display: flex;
+        justify-content: center;
+        align-items: center; */
     }
     
     .ellipsis {
         overflow: hidden;
         // white-space: nowrap;
         text-overflow: ellipsis;
+    }
+    
+    #news-items-holder::-webkit-scrollbar {
+        display: none;
+    }
+    
+    #upcoming-items-holder::-webkit-scrollbar {
+        display: none;
+    }
+    
+    #news-items-holder {
+        transition: all 1s ease-in-out;
     }
 </style>
 <div id="home-screen-wrapper">
@@ -66,19 +98,21 @@
         </h3>
         <div class="scrolling-wrapper-flexbox" id="news-items-holder">
         </div>
+
         <h3 class="ui header">
             Upcomming Events
-            <div class="sub header">Manage your account.</div>
+            <div class="sub header">In your location, SJC.</div>
         </h3>
-        <div class="scrolling-wrapper-flexbox" id="items-holder">
-            <button class="ui button red" onclick="App.Events.emit('show-haloween-app')">Set Map</button>
+        <div class="scrolling-wrapper-flexbox" id="upcoming-items-holder">
+            <button class="ui button red" onclick="App.Events.emit('show-haloween-app')">Expo SJC</button>
         </div>
+
         <h3 class="ui header">
             Past Events
             <div class="sub header">Past events on campus.</div>
         </h3>
         <div class="scrolling-wrapper-flexbox" id="items-holder-1">
-            <button class="ui button green" onclick="App.Events.emit('show-india-app')">INDIA</button>
+            <button class="ui button green" onclick="App.Events.emit('show-india-app')">India Expo</button>
         </div>
     </div>
 </div>
@@ -97,11 +131,25 @@
 <template id="news-items-template">
     {{#items}}
     <div class="scrolling-element">
-        <div class="ui basic segment center aligned middle aligned scroll-card news-card {{bgColor}}" data-link-url="{{feedlink}}">
-            <img src="{{image}}" style="height:50px;margin:auto;">
-            <p class="ellipsis ">
+        <div class="ui basic teal segment center aligned middle aligned scroll-card news-card" data-link-url="{{feedlink}}">
+            <!-- <img src="{{image}}" style="height:50px;margin:auto;"> -->
+            <p class="ellipsis">
                 {{title}}
             </p>
+        </div>
+    </div>
+    {{/items}}
+</template>
+
+<template id="upcoming-items-template">
+    {{#items}}
+    <div class="scrolling-element">
+        <div class="ui basic segment scroll-card upcoming-event-card {{grad}}" data-link-url="{{feedlink}}">
+            <h4 class="ui header inverted">
+                <img src="{{image}}" width="60" style="margin-bottom:20px;">
+                <br> {{{name}}}
+                <div class="sub header">{{date}}</div>
+            </h4>
         </div>
     </div>
     {{/items}}
@@ -113,7 +161,7 @@
 
     function getRandomClass() {
         var rind = getRandomArbitrary(0, grads.length - 1);
-        console.log(rind);
+        // console.log(rind);
         return grads[rind];
     }
 
@@ -184,9 +232,33 @@
         });
     }
 
+    function renderUpcomingEvents() {
+        var upcoming_events = [{
+            image: "https://www.freeiconspng.com/uploads/halloween-png-28.png",
+            name: "Haloween Bake Off & Haunted hoouse",
+            date: "10/01/2018",
+            grad: "slate-grad"
+        }, {
+            image: "https://dumielauxepices.net/sites/default/files/light-clipart-deepavali-665045-3387561.png",
+            name: "PayPal Employee <br> Diwali party",
+            date: "10/15/2018",
+            grad: "red-grad"
+        }, {
+            image: "https://melbournechapter.net/images/technology-transparent-icon-5.png",
+            name: "PayPal India <br>Chennai Tech Expo",
+            date: "10/25/2018",
+            grad: "blue-grad"
+        }];
+        let template = $("#upcoming-items-template").html();
+        let html = Mustache.to_html(template, {
+            items: upcoming_events
+        });
+        $("#upcoming-items-holder").html(html);
+    }
+
     $(function() {
         App.Events.listen("show-haloween-app", function() {
-            App.base_url = App.store_url + "app_1";
+            App.base_url = App.store_url + "texposjc";
             $.getScript(App.base_url + "/js/init.js", function(jd) {
                 alert("Loaded new path");
             });
@@ -210,5 +282,8 @@
             });
         });
         loadData("PayPal");
+
+
+        renderUpcomingEvents();
     });
 </script>
