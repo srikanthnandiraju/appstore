@@ -18,7 +18,8 @@
 </style>
 <div class="flexy-wrapper">
     <div class="ui container">
-        <div id="logger"></div>
+        <div id="logger" class="ui segment"></div>
+        <div id="beacon-status" class="ui segment"></div>
         <div id="cluescan-view"></div>
         <button class="ui button red" id="scan-clue" onclick="startScanning()">Start Scanning</button>
     </div>
@@ -53,16 +54,17 @@
             var htmlBeacon = beacon.url + "<br/>"
             html += htmlBeacon
         }
-        $('#logger').html(html);
+        $('#logger').append(html);
     }
 
 
     function startScanning() {
         setTimeout(BeaconManager.startScan(), 500);
-
+        $('#logger').append("Started scanning...");
         // Stop scan after 10s
         setTimeout(function() {
-            BeaconManager.stopScan()
+            BeaconManager.stopScan();
+            $('#logger').append("Stopped scanning...");
         }, 10000);
     }
 
@@ -75,9 +77,6 @@
         App.Events.listen("refresh-beacon-list", function() {
             updateBeaconList();
         });
-
-
-
 
     });
 </script>
