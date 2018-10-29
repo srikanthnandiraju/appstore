@@ -144,11 +144,12 @@
 <template id="upcoming-items-template">
     {{#items}}
     <div class="scrolling-element">
-        <div class="ui basic segment scroll-card upcoming-event-card {{grad}}" data-link-url="{{feedlink}}">
-            <h4 class="ui header inverted">
-                <img src="{{image}}" width="60" style="margin-bottom:20px;">
-                <br> {{{name}}}
-                <div class="sub header">{{date}}</div>
+        <div class="ui basic segment scroll-card upcoming-event-card {{grad}}" onclick="App.Events.emit('{{action}}')"">
+            <h4 class="
+            ui header inverted">
+            <img src="{{image}}" width="60" style="margin-bottom:20px;">
+            <br> {{{name}}}
+            <div class="sub header">{{date}}</div>
             </h4>
         </div>
     </div>
@@ -237,17 +238,20 @@
             image: "https://www.freeiconspng.com/uploads/halloween-png-28.png",
             name: "Haloween Bake Off & Haunted hoouse",
             date: "10/01/2018",
-            grad: "slate-grad"
+            grad: "slate-grad",
+            action: "show-haloween-app"
         }, {
             image: "https://dumielauxepices.net/sites/default/files/light-clipart-deepavali-665045-3387561.png",
             name: "PayPal Employee <br> Diwali party",
             date: "10/15/2018",
-            grad: "red-grad"
+            grad: "red-grad",
+            action: "show-diwali-app"
         }, {
             image: "https://melbournechapter.net/images/technology-transparent-icon-5.png",
             name: "PayPal India <br>Chennai Tech Expo",
             date: "10/25/2018",
-            grad: "blue-grad"
+            grad: "blue-grad",
+            action: "show-india-app"
         }];
         let template = $("#upcoming-items-template").html();
         let html = Mustache.to_html(template, {
@@ -258,9 +262,10 @@
 
     $(function() {
         App.Events.listen("show-haloween-app", function() {
-            App.base_url = App.store_url + "texposjc";
+            App.base_url = App.store_url + "bakeoff";
             $.getScript(App.base_url + "/js/init.js", function(jd) {
-                alert("Loaded new path");
+                console.log("Loaded bakeoff path");
+                window.location.href = "#/scavenger_clues";
             });
 
             // $.ajax({
@@ -275,15 +280,15 @@
 
         });
 
-        App.Events.listen("show-india-app", function() {
-            App.base_url = App.store_url + "india";
-            $.getScript(App.base_url + "/js/init.js", function(jd) {
-                alert("Loaded india path");
-            });
+        App.Events.listen("show-diwali-app", function() {
+            console.log("Show diwali app");
         });
+
+        App.Events.listen("show-india-app", function() {
+            console.log("Show india app");
+        });
+
         loadData("PayPal");
-
-
         renderUpcomingEvents();
     });
 </script>

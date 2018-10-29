@@ -1,0 +1,83 @@
+<style>
+    #cluescan-screen-wrapper {
+        position: absolute;
+        margin: 0px;
+        /* border: 2px solid red; */
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        overflow: hidden;
+    }
+    
+    .clue-card {
+        margin-bottom: 15px !important;
+        border-radius: 10px !important;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12) !important;
+    }
+</style>
+<div class="flexy-wrapper">
+    <div class="ui container">
+        <div id="logger"></div>
+        <div id="cluescan-view"></div>
+        <button class="ui button red" id="scan-clue" onclick="startScanning()">Start Scanning</button>
+    </div>
+</div>
+
+
+<template id="scan-clue-template">
+    <div class="ui fluid card clue-card" data-beacon-uri="{{id}}">
+        <div class="content">
+            <div class="description">
+                {{description}}
+            </div>
+        </div>
+    </div>
+</template>
+
+
+<script>
+    function renderClue(clue_data) {
+        let template = $('#scan-clue-template').html();
+        let html = Mustache.to_html(template, clue_data);
+        $("#cluescan-view").html(html);
+    }
+
+    function updateBeaconList() {
+        BeaconManager.removeOldBeacons();
+        var sortedList = BeaconManager.getSortedBeaconList();
+        var html = '';
+
+        for (var i = 0; i < sortedList.length; ++i) {
+            var beacon = sortedList[i];
+            var htmlBeacon = beacon.url + "<br/>"
+            html += htmlBeacon
+        }
+        $('#logger').html(html);
+    }
+
+
+    function startScanning() {
+        setTimeout(BeaconManager.startScan(), 500);
+
+        // Stop scan after 10s
+        setTimeout(function() {
+            BeaconManager.stopScan()
+        }, 10000);
+    }
+
+    $(function() {
+        var selected_clue = _.find(App.clues, {
+            id: App.current_clue_id
+        });
+        renderClue(selected_clue);
+
+        App.Events.listen("refresh-beacon-list", function() {
+            updateBeaconList();
+        });
+
+
+
+
+    });
+</script>
