@@ -1,6 +1,9 @@
 App.settings = {
     version: 0,
     topics: [{
+            name: "Headlines",
+            search_text: "Hyderabad latest news"
+        }, {
             name: "Politics",
             search_text: "Hyderabad Politics"
         },
