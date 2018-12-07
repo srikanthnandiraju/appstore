@@ -1,0 +1,102 @@
+<style>
+    #photo-wrapper {
+        width: 100%;
+        height: 100%;
+    }
+    
+    .photo-flexy {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 2s;
+        z-index: 999999;
+    }
+</style>
+
+<div id="photo-wrapper" class="photo-flexy">
+    <div class="ui segment padded raised animated fadeInUp" style="width:380px;">
+        <div style="width:200px;margin:auto;text-align:center;position:relative">
+            <h3 class="ui header">
+                <!-- <span class="mood-feeling"></span> -->
+                What makes you feel
+                <div class="sub header"><span class="mood-feeling"></span>.</div>
+            </h3>
+            <img src="img/default.png" id="mood-image" class="animated pulse infinite">
+        </div>
+
+        <div class="ui form">
+
+            <div class="field">
+                <textarea rows="4" id="message-text" placeholder="Enter message"></textarea>
+            </div>
+            <div class="field">
+                <div class="ui calendar" id="mood-day">
+                    <div class="ui input left icon">
+                        <i class="calendar icon"></i>
+                        <input type="text" placeholder="Date/Time">
+                    </div>
+                </div>
+            </div>
+            <div class="field center aligned">
+                <div style="text-align:center;">
+                    <button class="ui button fluid blue" id="save-mood-button">Capture <span class="mood-feeling"></span>
+                        moment</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".close").show();
+
+        $('#mood-day').calendar();
+
+        var foundMood = _.find(App.with_custom_moods, {
+            id: App.current_mood
+        });
+
+        $("#mood-image").attr('src', foundMood.icon);
+        $(".mood-feeling").html(foundMood.name);
+
+        $("#save-mood-button").click(function () {
+            var enteredText = $("#message-text").val().trim();
+            var selected_date = $('#mood-day').calendar('get date');;
+
+            console.log(selected_date);
+
+            if (!selected_date) {
+                selected_date = new Date();
+            }
+
+            var mood_item = {
+                image: foundMood.icon,
+                description: enteredText,
+                mood_type: foundMood.name,
+                negative_emotion: foundMood.negative_emotion == undefined ? 0 : 1,
+                latti: App.latti,
+                longi: App.longi,
+                mood_date: "" + moment(selected_date)
+            }
+
+            MoodsController.createItem(mood_item);
+            App.FullScreen.hide();
+        });
+
+
+        navigator.geolocation.getCurrentPosition(geoLocate, geoError);
+
+        function geoLocate(position) {
+            App.latti = position.coords.latitude;
+            App.longi = position.coords.longitude;
+        }
+
+        function geoError(err) {
+            alert(err);
+        }
+
+
+    });
+</script>

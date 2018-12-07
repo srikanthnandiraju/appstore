@@ -1,0 +1,74 @@
+<style>
+    #map_canvas {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        bottom: 25px;
+        right: 20px;
+        box-shadow: 2px 2px 10px 4px rgba(0, 0, 0, 0.08);
+        border: 1px solid gray;
+        border-radius: 15px;
+        background: white;
+    }
+</style>
+
+<div class="ui container">
+    <div id="map_canvas" class="ui segment">
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+
+        plugin.google.maps.environment.setBackgroundColor("#f5f5f5");
+
+        var one_mood;
+        var div = document.getElementById("map_canvas");
+        var map = plugin.google.maps.Map.getMap(div, {
+            backgroundColor: "red"
+        });
+
+        MoodsController.getResponseWithEvent("mood-map-response");
+        App.Events.listen("mood-map-response", function (payload) {
+            plotMoodMap(payload.data);
+        });
+
+        function plotMoodMap(moods) {
+
+            for (var i = 0; i < moods.length; i++) {
+                one_mood = moods[i];
+                var marker = map.addMarker({
+                    position: {
+                        lat: one_mood.latti,
+                        lng: one_mood.longi
+                    },
+                    title: one_mood.mood_type + "\n" + one_mood.description + "\n" + moment(one_mood.created_at)
+                        .fromNow(),
+                    snippet: one_mood.happened_day,
+                    'icon': {
+                        'url': one_mood.image
+                    },
+                    animation: plugin.google.maps.Animation.BOUNCE
+                });
+            }
+
+            focusMap(one_mood);
+        }
+
+        function focusMap(last_mood) {
+            map.animateCamera({
+                target: {
+                    lat: last_mood.latti,
+                    lng: last_mood.longi
+                },
+                zoom: 15,
+                tilt: 60,
+                bearing: 140,
+                duration: 2000
+            });
+        }
+
+
+    });
+</script>
