@@ -1,0 +1,100 @@
+<style>
+    ul.timeline {
+        list-style-type: none;
+        position: relative;
+    }
+    
+    ul.timeline:before {
+        content: ' ';
+        background: #d4d9df;
+        display: inline-block;
+        position: absolute;
+        left: 29px;
+        width: 2px;
+        height: 100%;
+        z-index: 400;
+    }
+    
+    ul.timeline>li {
+        margin: 20px 0;
+        padding-left: 20px;
+    }
+    
+    ul.timeline>li:before {
+        content: ' ';
+        background: white;
+        display: inline-block;
+        position: absolute;
+        border-radius: 50%;
+        border: 3px solid #22c0e8;
+        left: 20px;
+        width: 20px;
+        height: 20px;
+        z-index: 400;
+    }
+</style>
+<div class="animated fadeInUp" style="margin-top:10px;">
+    <!-- <h2 class="ui header center aligned">
+        How do you feel now?
+        <div class="sub header">capture your mood</div>
+    </h2> -->
+    <div id="moods-history-holder" style="padding-right:20px;">
+    </div>
+</div>
+
+<template id="one-mood-history-template">
+    <ul class="timeline">
+        {{#all_moods}}
+        <li>
+            <div class="meta">{{time_lapsed}}</div>
+            <div class="ui fluid card" style="margin-left:-10px;">
+                <div class="content">
+
+                    <img class="right floated mini ui image" src="{{image}}">
+                    <div class="header">
+                        {{mood_type}}
+                    </div>
+                    <div class="meta">
+                        {{happened_day}}
+                    </div>
+
+                    <div class="description">
+                        {{description}}
+                    </div>
+                </div>
+                <div class="extra content">
+                    <!-- <span class="time left floated">
+                        <i class="clock outline icon"></i>&nbsp;&nbsp;{{happened_day}}</span> -->
+                    <span class="time right floated" onclick="MoodsController.deleteItem('{{oid}}');MoodsController.getResponseWithEvent('mood-history-response')">
+                        <i class="trash alternate outline red icon"></i>remove</span>
+                </div>
+            </div>
+
+        </li>
+        {{/all_moods}}
+    </ul>
+</template>
+
+<script type="text/javascript">
+    $(function() {
+
+        function renderMoodHistory(arr) {
+            let template = $('#one-mood-history-template').html();
+            for (var i = 0; i < arr.length; i++) {
+                arr[i].time_lapsed = moment(arr[i].created_at).fromNow();
+                var dt = parseInt(arr[i].mood_date);
+                arr[i].happened_day = moment(dt).format('DD MMMM, YYYY [at] HH:mm a');
+            }
+            let html = Mustache.to_html(template, {
+                all_moods: arr
+            });
+            $("#moods-history-holder").html(html);
+        }
+
+        MoodsController.getResponseWithEvent("mood-history-response");
+        App.Events.listen("mood-history-response", function(payload) {
+            renderMoodHistory(payload.data);
+        });
+
+    });
+</script>

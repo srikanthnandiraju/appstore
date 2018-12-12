@@ -1,0 +1,96 @@
+<style>
+    #home-screen-wrapper {
+        position: absolute;
+        margin: 0px;
+        /* border: 2px solid red; */
+        top: 1px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        overflow: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+<div id="home-screen-wrapper">
+    <!-- <img class="animated fadeInDown" src="http://www.logoinn.com/images/banner-design-globestreamlarge.jpg" alt="" width="100%"> -->
+    <div class="ui container center aligned" id="home-screen">
+        <div class="ui center aligned basic segment animated fadeInDown fast">
+            <h3 class="ui header">
+                Capture and Analyze your mood
+                <div class="sub header">using your mobile over time and locations.
+                </div>
+            </h3>
+        </div>
+        <h3 class="animated bounceIn delay-1s" style="margin-top: -5px;" id="logged-in-user">
+            &nbsp;Dear User
+        </h3>
+        <!-- <div class="tinycard animated fadeInDown fast ">
+            <ul style="text-align: left;margin:10px;padding-left:20px;">
+                <li>Create custom mood types</li>
+                <li>Analyze your mood changes using the dashboard</li>
+                <li>View a mood map to pot your moody hotspots</li>
+            </ul>
+        </div> -->
+        <div class="ui two column grid animated fadeInUp fast" style="margin-top: 10px;">
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/settings'">
+                    <h4 class="ui icon header">
+                        <i class="cog icon orange"></i>
+                        <div class="content">
+                            Settings
+                            <div class="sub header">setup your mood types</div>
+                        </div>
+                    </h4>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/mood-history'">
+                    <h4 class="ui icon header">
+                        <i class="list  icon red"></i>
+                        <div class="content">
+                            History
+                            <div class="sub header">Review moods</div>
+                        </div>
+                        </h3>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/speakers'">
+                    <h4 class="ui icon header">
+                        <i class="map icon brown"></i>
+                        <div class="content">
+                            Map
+                            <div class="sub header">View mood on a map </div>
+                        </div>
+                        </h>
+                </div>
+            </div>
+            <div class="column center aligned">
+                <div class="tinycard" onclick="window.location.href='#/map'">
+                    <h4 class="ui icon header">
+                        <i class="pie chart icon blue"></i>
+                        <div class="content">
+                            Analyze
+                            <div class="sub header">View reports</div>
+                        </div>
+                        </h>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+    </div>
+
+
+    <template id="add-moods-button-template">
+        <a href="#/mood-types" class="animated rotateIn">
+            <i class="ui large plus icon"></i>
+        </a>
+    </template>
+
+    <script>
+        $(function () {
+            $("#top-right-action-holder").html($("#add-moods-button-template").html());
+        });
+    </script>

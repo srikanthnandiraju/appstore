@@ -1,0 +1,80 @@
+<style>
+    #settings-form-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<div id="settings-form-wrapper" class="ui container">
+    <div class="ui segment padded raised animated fadeInUp" style="width:380px;">
+        <div style="width:300px;margin:auto;text-align:center;position:relative">
+            <h3 class="ui header">
+                New emotion/mood name.
+                <div class="sub header">If this is a negative emotion, switch the toggle.</div>
+            </h3>
+            <br>
+            <!-- <img src="img/placeholder.png" id="mood-image" class="animated pulse infinite"> -->
+        </div>
+
+        <div class="ui form">
+            <div class="field">
+                <div class="ui input left icon">
+                    <i class="smile icon"></i>
+                    <input type="text" id="new-mmood-name" placeholder="Enter mood name">
+                </div>
+            </div>
+            <div class="field">
+                <div class="ui basic segment center aligned">
+                    <div class="ui toggle checkbox" id="positive-negative">
+                        <input type="checkbox" name="public">
+                        <label>Negative Emotion</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field center aligned">
+                <div style="text-align:center;">
+                    <button class="ui button fluid blue" id="save-moodtype-button">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+
+        var negative_emotion = 0;
+        $("#positive-negative").checkbox({
+            onChange: function() {
+                var $input = $(this);
+                var checked = $input.is(":checked");
+                if (checked) {
+                    negative_emotion = 1;
+                } else {
+                    negative_emotion = 0;
+                }
+            }
+        });
+
+        $("#save-moodtype-button").off('click').on('click', function() {
+            var new_mood_type = $("#new-mmood-name").val();
+            if (new_mood_type != undefined) {
+                var id_time = Date.now();
+                var new_type = {
+                    name: new_mood_type,
+                    icon: negative_emotion == 1 ? "img/mad.png" : "img/default.png",
+                    id: id_time,
+                    negative_emotion: negative_emotion,
+                    created_at: id_time
+                };
+                App.Events.emit("new-moodtype-created", new_type);
+                App.FullScreen.hide();
+            }
+        });
+
+    });
+</script>
