@@ -1,7 +1,3 @@
-<div class="ui segment">
-    Loaded and armed
-</div>
-
 <template id="landing-menu">
     <h4 class="ui icon header center aligned inverted">
         <i class="heart outline icon teal"></i>
@@ -10,7 +6,10 @@
             <div class="sub header">Foundation.</div>
         </div>
     </h4>
-    <a class="item" href="#/news">Topics
+    <a class="item" href="#/agenda">Event Agenda
+        <i class="clock outline icon"></i>
+    </a>
+    <a class="item" href="#/news">News
         <i class="newspaper icon"></i>
     </a>
     <a class="item" href="#/gifts">Gifts
@@ -22,23 +21,26 @@
     <a class="item" href="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NPAMJ6LNWSZYE','_system');">Donate
         <i class="heart outline icon"></i>
     </a>
-    <a class="item" href="#/volunteer">Messages
+    <a class="item" href="#/volunteer">Volunteer Messages
         <i class="chat outline icon"></i>
     </a>
 </template>
 
 <script>
     function land() {
-        Path.map("#/news").to(function () {
-            $("#title-text").html("Touch A Life");
-            $("#stage").load("screens/news.html");
+        Path.map("#/agenda").to(function () {
+            $("#title-text").html("Event Agenda");
+            $("#stage").load(App.base_url + "screens/agenda.html");
         });
-
         Path.map("#/gifts").to(function () {
             $("#title-text").html("GIFTS");
             $("#stage").load(App.base_url + "screens/gifts.html");
         });
 
+        Path.map("#/news").to(function () {
+            $("#title-text").html("Touch A Life");
+            $("#stage").load("screens/news.html");
+        });
         Path.map("#/saved-items").to(function () {
             $("#title-text").html("Saved Items");
             $("#stage").load("screens/saved-items.html");
@@ -68,19 +70,6 @@
             setTimeout(function () {
                 window.location.href = "#/gifts";
             }, 2000);
-
         }
-
-
-        // $.getScript(App.base_url + "/js/init.js", function (jd) {
-        //     console.log("Loaded touch path");
-        //     window.location.href = "#/home";
-        //     if (!App.fast_click_enabled) {
-        //         FastClick.attach(document.body);
-        //         App.fast_click_enabled = true;
-        //     }
-        // });
-
-
     });
 </script>
