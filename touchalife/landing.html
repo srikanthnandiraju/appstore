@@ -37,31 +37,31 @@
 <script>
     function land() {
 
-        Path.map("#/cats").to(function () {
+        Path.map("#/cats").to(function() {
             $("#title-text").html("Categories");
             $("#stage").load(App.base_url + "screens/cats.html");
         });
 
 
-        Path.map("#/agenda").to(function () {
+        Path.map("#/agenda").to(function() {
             $("#title-text").html("Event Agenda");
             $("#stage").load(App.base_url + "screens/agenda.html");
         });
 
-        Path.map("#/gifts").to(function () {
+        Path.map("#/gifts").to(function() {
             $("#title-text").html("GIFTS");
             $("#stage").load(App.base_url + "screens/gifts.html");
         });
 
-        Path.map("#/news").to(function () {
+        Path.map("#/news").to(function() {
             $("#title-text").html("Touch A Life");
             $("#stage").load("screens/news.html");
         });
-        Path.map("#/saved-items").to(function () {
+        Path.map("#/saved-items").to(function() {
             $("#title-text").html("Saved Items");
             $("#stage").load("screens/saved-items.html");
         });
-        Path.map("#/volunteer").to(function () {
+        Path.map("#/volunteer").to(function() {
             $("#title-text").html("Volunteer");
             $("#stage").load("screens/volunteer.html");
         });
@@ -71,21 +71,30 @@
 
         $(".side-menu-items").html($("#landing-menu").html());
         // Need this to handle event on generated links
-        $('.side-menu-items').on('click', '.item', function () {
+        $('.side-menu-items').on('click', '.item', function() {
             App.Events.emit("hide-side-nav");
         });
     }
 
 
-    $(function () {
+    $(function() {
         $("#title-text").html("TouchALife");
         if (!App.landed) {
             App.landed = true;
             App.base_url = App.store_url + "app/";
             land();
-            setTimeout(function () {
+            setTimeout(function() {
                 window.location.href = "#/cats";
+                if (!App.fast_click_enabled) {
+                    FastClick.attach(document.body);
+                    App.fast_click_enabled = true;
+                }
             }, 2000);
+
+            if (!App.fast_click_enabled) {
+                FastClick.attach(document.body);
+                App.fast_click_enabled = true;
+            }
         }
     });
 </script>
