@@ -1,0 +1,58 @@
+<div class="ui segment">
+    Loaded and armed
+</div>
+
+<template id="landing-menu">
+    <h4 class="ui icon header center aligned inverted">
+        <i class="heart outline icon teal"></i>
+        <div class="content">
+            Touch A Life
+            <div class="sub header">Foundation.</div>
+        </div>
+    </h4>
+    <a class="item" href="#/news">Topics
+        <i class="newspaper icon"></i>
+    </a>
+    <a class="item" href="#/products">Gifts
+        <i class="gift icon"></i>
+    </a>
+    <a class="item" href="#/saved-items">Saved Items
+        <i class="list alternate outline icon"></i>
+    </a>
+    <a class="item" href="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NPAMJ6LNWSZYE','_system');">Donate
+        <i class="heart outline icon"></i>
+    </a>
+    <a class="item" href="#/volunteer">Messages
+        <i class="chat outline icon"></i>
+    </a>
+</template>
+
+<script>
+    $(function () {
+        $("#title-text").html("TouchALife");
+
+        if (!App.landed) {
+            App.landed = true;
+            $(".side-menu-items").html($("#landing-menu").html());
+            // Need this to handle event on generated links
+            $('.side-menu-items').on('click', '.item', function () {
+                App.Events.emit("hide-side-nav");
+            });
+        }
+
+
+
+        App.base_url = App.store_url + "app";
+
+        // $.getScript(App.base_url + "/js/init.js", function (jd) {
+        //     console.log("Loaded touch path");
+        //     window.location.href = "#/home";
+        //     if (!App.fast_click_enabled) {
+        //         FastClick.attach(document.body);
+        //         App.fast_click_enabled = true;
+        //     }
+        // });
+
+
+    });
+</script>
