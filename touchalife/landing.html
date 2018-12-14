@@ -13,7 +13,7 @@
     <a class="item" href="#/news">Topics
         <i class="newspaper icon"></i>
     </a>
-    <a class="item" href="#/products">Gifts
+    <a class="item" href="#/gifts">Gifts
         <i class="gift icon"></i>
     </a>
     <a class="item" href="#/saved-items">Saved Items
@@ -28,21 +28,46 @@
 </template>
 
 <script>
+    function land() {
+        Path.map("#/news").to(function () {
+            $("#title-text").html("Touch A Life");
+            $("#stage").load("screens/news.html");
+        });
+
+        Path.map("#/gifts").to(function () {
+            $("#title-text").html("GIFTS");
+            $("#stage").load(App.base_url + "screens/gifts.html");
+        });
+
+        Path.map("#/saved-items").to(function () {
+            $("#title-text").html("Saved Items");
+            $("#stage").load("screens/saved-items.html");
+        });
+        Path.map("#/volunteer").to(function () {
+            $("#title-text").html("Volunteer");
+            $("#stage").load("screens/volunteer.html");
+        });
+
+        Path.root("#/gifts");
+        Path.listen();
+
+        $(".side-menu-items").html($("#landing-menu").html());
+        // Need this to handle event on generated links
+        $('.side-menu-items').on('click', '.item', function () {
+            App.Events.emit("hide-side-nav");
+        });
+    }
+
+
     $(function () {
         $("#title-text").html("TouchALife");
-
         if (!App.landed) {
             App.landed = true;
-            $(".side-menu-items").html($("#landing-menu").html());
-            // Need this to handle event on generated links
-            $('.side-menu-items').on('click', '.item', function () {
-                App.Events.emit("hide-side-nav");
-            });
+            App.base_url = App.store_url + "app/";
+            land();
+            window.location.href = "#/gifts";
         }
 
-
-
-        App.base_url = App.store_url + "app";
 
         // $.getScript(App.base_url + "/js/init.js", function (jd) {
         //     console.log("Loaded touch path");

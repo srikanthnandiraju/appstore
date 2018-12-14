@@ -1,0 +1,243 @@
+<style>
+    a {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        a:link {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        a:hover {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        a:active {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .disable-wrapper {
+            position: relative;
+        }
+        
+        .disable-layer {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            right: 0px;
+            background: rgba(0, 0, 10, 0);
+        }
+        
+        .object-fit_fill {
+            object-fit: cover;
+            object-position: 100% 0;
+        }
+        
+        .rounded-card {
+            margin: auto !important;
+            /* margin-bottom: 25px !important; */
+            border-radius: 8px !important;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12) !important;
+            /* max-width: 400px !important; */
+            cursor: pointer;
+            /*   margin:auto !important; */
+        }
+        
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box !important;
+        }
+        
+        article {
+            -moz-column-width: 13em;
+            -webkit-column-width: 13em;
+            -moz-column-gap: 1em;
+            -webkit-column-gap: 1em;
+        }
+        
+        section {
+            display: inline-block;
+            margin: 0.20rem;
+            padding: .5rem;
+            width: 100%;
+            /*   background: #fff; */
+            /*   border-radius: 10px; */
+            /*   box-shadow: 1px 1px 15px rgba(0, 0, 0, 0.06); */
+            margin-top: 5px;
+        }
+        
+        #mas-holder {
+            padding: 1em;
+            font-family: verdana;
+            line-height: 1.25;
+        }
+    
+    #news-card{
+    cursor: pointer;
+    }
+    
+    
+    
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px){
+        #tablet-pad{
+            padding: 0px 15px;
+        }
+    }
+    
+    @media (min-width: 1281px) {
+        #tablet-pad{
+            padding: 0px 15px;
+        }
+    }
+    
+    /* 
+      ##Device = Laptops, Desktops
+      ##Screen = B/w 1025px to 1280px
+    */
+    
+    @media (min-width: 1025px) and (max-width: 1280px) {
+      
+        #tablet-pad{
+            padding: 0px 15px;
+        }
+      
+    }
+    
+    </style>
+
+<div id="news-screen-wrapper" class="screen-wrapper">
+    <div class="ui container fluid animated fadeInUp fast" id="tablet-pad">
+
+
+        <h2 class="ui header center aligned" style="margin-top: 10px">
+            <span id="news-topic">Gifts</span>
+            <div class="sub header">from our inventory</div>
+        </h2>
+
+        <article id="items-holder">
+            <div class="flexy-wrapper" id="loading-message" style="background: url('img/w1.png') no-repeat center #fff;  background-size: cover;">
+
+                <div class="ui segment stacked raised center aligned middle aligned" style="min-width:300px;">
+                    <i class="newspaper outline icon teal huge"></i>
+                    <br>
+                    <h2 class="ui icon header">
+
+                        <div class="content">
+                            <div class="ui active centered inline loader"></div><br>
+                            Loading
+                            <div class="sub header">Products.</div>
+
+                        </div>
+                    </h2>
+                </div>
+
+            </div>
+        </article>
+    </div>
+
+    <template id="items-template" type="text/template">
+        {{#items}}
+        <section>
+
+            <div class="ui fluid card rounded-card">
+
+                <div class="image center aligned news-image" data-link-url="{{id}}">
+                    <img class="object-fit_fill" src="{{image}}" style="max-height: 200px !important;">
+                </div>
+
+                <div class="content news-card" data-link-url="{{id}}">
+                    <!-- <div class="meta">
+                        <i class="time outline icon"></i>&nbsp;&nbsp;{{price}}
+                    </div> -->
+
+
+                    <h2 class="ui header center aligned big" style="margin-top: 10px">
+                        <span id="news-topic">{{title}}</span>
+                        <br>
+                        <div class="sub header" style="margin-top:10px !important;">{{description}}</div>
+                    </h2>
+
+                    <div style="margin-top:5px;text-align: center;">
+                        <button class="ui button orange buy-button" data-product-id="{{id}}" style="border-radius:20px !important;">TAL
+                            ${{price}}</button>
+                    </div>
+
+                </div>
+
+
+                <div class="extra content">
+                    <span class="right floated share-news" data-link-share="{{id}}">
+                        <i class="share icon"></i>share</span>
+
+                    <!-- <span class="">
+                            <i class="heart outline icon like-news" data-link-liked="{{feedlink}}"></i>Like</span> -->
+
+                    <div class="ui  heart rating like-news" data-link-liked="{{id}}" data-max-rating="1" data-rating="0"></div>&nbsp;Save
+
+                </div>
+
+            </div>
+        </section>
+        {{/items}}
+    </template>
+</div>
+
+<script type="text/javascript">
+    function saveNewsItem(link_id) {
+        var saved_items = localStorage.getItem("saved_news_items");
+        if (saved_items && saved_items != undefined) {
+            saved_items = JSON.parse(saved_items);
+        } else {
+            saved_items = [];
+        }
+
+        var found_news = _.find(App.Products.allProducts, {
+            id: link_id
+        });
+        found_news.created_at = Date.now();
+        saved_items.push(found_news);
+        localStorage.setItem("saved_news_items", JSON.stringify(saved_items));
+        console.log(saved_items);
+    }
+
+    $(function () {
+        function renderView(items) {
+            let template = $("#items-template").html();
+            let html = Mustache.to_html(template, {
+                items: items
+            });
+            $("#items-holder").html(html);
+
+            $(".rating").rating();
+            $(".rating").click(function () {
+                var pageURL = $(this).attr("data-link-liked");
+                console.log(pageURL);
+                saveNewsItem(pageURL);
+            });
+
+            $(".buy-button").click(function () {
+                var selected_product_id = $(this).attr("data-product-id");
+                var found_product = _.find(App.Products.allProducts, {
+                    id: selected_product_id
+                });
+                App.selected_product = found_product;
+                var open_url = "https://touch-a-life.firebaseapp.com/index.html?item_id=" +
+                    selected_product_id;
+                window.open(open_url, "_system");
+                //App.FullScreen.show("screens/basket.html");
+            });
+
+        }
+
+        renderView(App.Products.allProducts);
+    });
+</script>
