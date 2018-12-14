@@ -16,19 +16,62 @@
                 </div>
             </h3>
         </div>
-        <div class="ui header ">Our agenda for the evening</div>
-        <div class="ui segment raised">
-            <ul style="text-align: left;margin:10px;padding-left:20px;">
-                <li>Talent Competition</li>
-                <li>Update on TAL's 2018 activities</li>
-                <li>TAL Hero Awards</li>
-                <li>Dinner, Drinks and DJ</li>
-            </ul>
+        <div class="ui container left aligned" id="speaker-list-view">
+
         </div>
     </div>
     <br><br>
 </div>
 
+<template id="one-speaker-template">
+    {{#speakers}}
+    <br>
+    <span class="ui label orange">
+        <i class="time icon outline"></i>{{time}}</span>
+    <div class="ui fluid card" style="margin-bottom:15px;border-radius:10px;box-shadow:0px 6px 12px rgba(0,0,0,0.12);">
+        <div class="content">
+            <div class="header">{{item}}
+            </div>
+            <div class="meta">
+                <span>{{location}}</span>
+            </div>
+
+            <div class="description">
+                {{description}}
+            </div>
+        </div>
+
+        <div class="extra content">
+            <span class="right floated">
+                <i class="microphone icon"></i></span>
+        </div>
+    </div>
+    {{/speakers}}
+</template>
+
 <script>
-    $(function () {});
+    $(function () {
+        function renderSpeakers(speakerData) {
+            let template = $('#one-speaker-template').html();
+            let html = Mustache.to_html(template, {
+                speakers: speakerData
+            });
+            $("#speaker-list-view").html(html);
+            $("#speakers-list-wrapper").animate({
+                scrollTop: 0
+            }, "slow");
+        }
+
+        Tabletop.init({
+            key: "1_2T6DDGGoe0tUzAjYPbgPKehTphu4tdeyai0IZxxsq8",
+            callback: function (data, tabletop) {
+                var agenda;
+                if (tabletop) {
+                    agenda = tabletop.sheets("agenda").all();
+                    console.log(agenda);
+                    renderSpeakers(agenda);
+                }
+            }
+        });
+    });
 </script>
