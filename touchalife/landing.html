@@ -65,7 +65,10 @@
             App.landed = true;
             App.base_url = App.store_url + "app/";
             land();
-            window.location.href = "#/gifts";
+            setTimeout(function () {
+                window.location.href = "#/gifts";
+            }, 2000);
+
         }
 
 
