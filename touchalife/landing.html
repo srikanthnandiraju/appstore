@@ -4,6 +4,21 @@
         z-index: 999999;
     }
 </style>
+
+<template id="nav-bar-reload">
+    <div class="ui fluid container center aligned">
+        <a href="#/" class="item" id="menu-toggle">
+            <i class="ui large bars icon"></i>
+        </a>
+        <p id="title-text">&nbsp;</p>
+        <div class="right item" id="top-right-action-holder">
+            <a href="#/mood-types">
+                <!-- <i class="ui large plus icon"></i> -->
+            </a>
+        </div>
+    </div>
+</template>
+
 <template id="landing-menu">
     <h4 class="ui icon header center aligned inverted">
         <i class="heart outline icon teal"></i>
@@ -77,10 +92,12 @@
 
         $(".side-menu-items").html($("#landing-menu").html());
         // Need this to handle event on generated links
+        $("#navbar").html($("#nav-bar-reload").html());
+
 
         $(document).on('click', '#menu-toggle', function() {
             App.sidenav.open();
-            alert("TAL 1");
+            alert("TAL 2");
         });
 
         $('.side-menu-items').on('click', '.item', function() {
