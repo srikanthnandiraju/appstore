@@ -2,7 +2,6 @@
     #navbar,
     #menu-toggle {
         cursor: pointer;
-        z-index: 999999;
     }
 </style>
 
@@ -109,10 +108,10 @@
 
             setTimeout(function() {
                 window.location.href = "#/cats";
-                // if (!App.fast_click_enabled) {
-                //     FastClick.attach(document.body);
-                //     App.fast_click_enabled = true;
-                // }
+                if (!App.fast_click_enabled) {
+                    FastClick.attach(document.body);
+                    App.fast_click_enabled = true;
+                }
             }, 2000);
 
             // if (!App.fast_click_enabled) {
