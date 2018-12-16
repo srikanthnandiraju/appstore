@@ -1,23 +1,10 @@
 <style>
-    #navbar {
+    #navbar,
+    #menu-toggle {
         cursor: pointer;
         z-index: 999999;
     }
 </style>
-
-<template id="nav-bar-reload">
-    <div class="ui fluid container center aligned">
-        <a href="#/" class="item" id="menu-toggle">
-            <i class="ui large bars icon"></i>
-        </a>
-        <p id="title-text">&nbsp;</p>
-        <div class="right item" id="top-right-action-holder">
-            <a href="#/mood-types">
-                <!-- <i class="ui large plus icon"></i> -->
-            </a>
-        </div>
-    </div>
-</template>
 
 <template id="landing-menu">
     <h4 class="ui icon header center aligned inverted">
@@ -63,7 +50,6 @@
             $("#stage").load(App.base_url + "screens/cats.html");
         });
 
-
         Path.map("#/agenda").to(function() {
             $("#title-text").html("Event Agenda");
             $("#stage").load(App.base_url + "screens/agenda.html");
@@ -78,10 +64,12 @@
             $("#title-text").html("Touch A Life");
             $("#stage").load("screens/news.html");
         });
+
         Path.map("#/saved-items").to(function() {
             $("#title-text").html("Saved Items");
             $("#stage").load("screens/saved-items.html");
         });
+
         Path.map("#/volunteer").to(function() {
             $("#title-text").html("Volunteer");
             $("#stage").load("screens/volunteer.html");
@@ -92,13 +80,19 @@
 
         $(".side-menu-items").html($("#landing-menu").html());
         // Need this to handle event on generated links
-        // $("#navbar").html($("#nav-bar-reload").html());
 
 
+        // Brute force fix for menu toggle
         $(document).on('click', '#navbar', function() {
             App.sidenav.open();
-            alert("TAL 3");
         });
+        $("#navbar").on('click', '#menu-toggle', function() {
+            App.sidenav.open();
+        });
+        $("#navbar").on('click', '.item', function() {
+            App.sidenav.open();
+        });
+        // --------------------------------------------
 
         $('.side-menu-items').on('click', '.item', function() {
             App.Events.emit("hide-side-nav");
