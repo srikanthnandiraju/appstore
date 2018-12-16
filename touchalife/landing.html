@@ -1,3 +1,9 @@
+<style>
+    #menu-toggle {
+        cursor: pointer;
+        z-index: 999999;
+    }
+</style>
 <template id="landing-menu">
     <h4 class="ui icon header center aligned inverted">
         <i class="heart outline icon teal"></i>
@@ -74,7 +80,7 @@
 
         $(document).on('click', '#menu-toggle', function() {
             App.sidenav.open();
-            alert("TAL");
+            alert("TAL 1");
         });
 
         $('.side-menu-items').on('click', '.item', function() {
