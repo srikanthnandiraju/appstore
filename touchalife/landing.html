@@ -1,5 +1,5 @@
 <style>
-    #menu-toggle {
+    #navbar {
         cursor: pointer;
         z-index: 999999;
     }
@@ -92,12 +92,12 @@
 
         $(".side-menu-items").html($("#landing-menu").html());
         // Need this to handle event on generated links
-        $("#navbar").html($("#nav-bar-reload").html());
+        // $("#navbar").html($("#nav-bar-reload").html());
 
 
-        $(document).on('click', '#menu-toggle', function() {
+        $(document).on('click', '#navbar', function() {
             App.sidenav.open();
-            alert("TAL 2");
+            alert("TAL 3");
         });
 
         $('.side-menu-items').on('click', '.item', function() {
