@@ -1,0 +1,134 @@
+<style>
+    #clues-screen-wrapper {
+        position: absolute;
+        margin: 0px;
+        /* border: 2px solid red; */
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        overflow: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .clue-card {
+        margin-bottom: 15px !important;
+        border-radius: 10px !important;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12) !important;
+        -webkit-transform: translate3d(0, 0, 0);
+    }
+</style>
+<div id="clues-screen-wrapper">
+    <div class="ui container animated fadeInUp fast" id="clues-list-view" style="padding:20px;">
+    </div>
+</div>
+<template id="one-clue-template">
+    {{#clues}}
+    <br>
+    <div class="ui fluid raised card clue-card" data-beacon-uri="{{id}}">
+
+        <div class="image center aligned">
+            <img src="{{image}}" width="100%">
+        </div>
+
+        <div class="content">
+            <div class="header">{{item}}
+            </div>
+            <div class="meta">
+                <span>{{location}}</span>
+            </div>
+
+            <div class="description">
+                <h3 class="ui header center aligned">{{description}}</h3>
+            </div>
+        </div>
+
+        <div class="extra content">
+            <span class="right floated">
+                <i class="{{icon}} red icon"></i>{{claim_text}}</span>
+            <span class="left floated">
+                <i class="trophy teal icon"></i>{{woo_points}}, WoW points</span>
+        </div>
+    </div>
+    {{/clues}}
+</template>
+
+
+<script>
+    function renderClues(clue_data) {
+
+        for (var i = 0; i < clue_data.length; i++) {
+            var already_claimed = _.includes(App.claimed_clues, clue_data[i].id);
+            if (already_claimed) {
+                clue_data[i].claim_text = "Unlocked";
+                clue_data[i].icon = "check";
+            } else {
+                clue_data[i].claim_text = "Unlock Now";
+                clue_data[i].icon = "lock";
+            }
+        }
+
+        let template = $('#one-clue-template').html();
+        let html = Mustache.to_html(template, {
+            clues: clue_data
+        });
+        $("#clues-list-view").html(html);
+
+        $('.clue-card').off('click').on('click', function () {
+            console.log("clue card cliced");
+            // var clue_id = parseInt($(this).attr("data-beacon-uri"));
+            var clue_id = $(this).attr("data-beacon-uri");
+            var already_claimed = _.includes(App.claimed_clues, clue_id);
+            if (!already_claimed) {
+                BeaconManager.beacons = {};
+                $("#fullscreen_stage").empty();
+                App.current_clue_id = clue_id;
+                App.FullScreen.show(App.base_url + "/screens/scavenger_scan.html");
+            }
+        });
+    }
+
+    $(function () {
+        // check if user already has claimed clues
+        //localStorage.removeItem("claimed_clues");
+        var claimed_clues = localStorage.getItem("claimed_clues");
+
+        if (claimed_clues != undefined && claimed_clues != "") {
+            claimed_clues = JSON.parse(claimed_clues);
+        } else {
+            claimed_clues = [];
+        }
+        App.claimed_clues = claimed_clues;
+
+        // Listen to event when a clue is claimed
+        App.Events.listen("claimed_clue", function (data) {
+            var already_claimed = _.includes(App.claimed_clues, data.claimed_id);
+            if (already_claimed) {
+                alert("ALready unlocked");
+            } else {
+                //alert("Congrats you have unlocked " + data.claimed_id);
+                var unlocked_data = {
+                    user_id: App.User.id,
+                    booth_name: data.claimed_id,
+                    event_name: App.event_name
+                };
+                // post an entry to user.
+                $.ajax({
+                    'type': 'POST',
+                    url: App.serverURL + "/boothactivity/booth",
+                    data: unlocked_data
+                });
+                App.claimed_clues.push(data.claimed_id);
+                localStorage.setItem("claimed_clues", JSON.stringify(App.claimed_clues));
+                renderClues(App.clues);
+            }
+        });
+
+
+        // $.getScript(App.base_url + "/js/clues_data.js", function (jd) {
+        //     renderClues(App.clues);
+        // });
+
+    });
+</script>

@@ -1,0 +1,44 @@
+<style>
+    #home-screen-wrapper {
+        position: absolute;
+        margin: 0px;
+        /* border: 2px solid red; */
+        top: 1px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        -webkit-backface-visibility: hidden;
+        overflow: hidden;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+</style>
+<div id="home-screen-wrapper">
+    <h1>Welcome</h1>
+</div>
+
+<script>
+    $(function () {
+
+        $("#title-text").html("TeluguNews");
+        $(".right.item").html("&nbsp;");
+        $("#title-text").css("marginLeft", "-20px");
+
+        App.Events.listen("news", function () {
+            App.base_url = App.store_url + "news";
+            App.event_name = "news";
+            $.getScript(App.base_url + "/js/init.js", function (jd) {
+                console.log("Loaded news path");
+                window.location.href = "#/news";
+            });
+        });
+
+        if (!App.fast_click_enabled) {
+            FastClick.attach(document.body);
+            App.fast_click_enabled = true;
+        }
+
+        App.Events.emit("news");
+
+    });
+</script>
