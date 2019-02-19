@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>[Eventlet]</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/framework7/3.5.2/css/framework7.min.css'>
+</head>
+
+<body>
+    <div id="app">
+        <div class="statusbar"></div>
+        <div class="view view-main">
+            <div data-name="home" class="page">
+                <div class="navbar no-shadow">
+                    <div class="navbar-inner">
+                        <div class="title">Map</div>
+                    </div>
+                </div>
+                <div class="page-content">
+                    <div class="block">
+                        <div class="list simple-list">
+                            <ul>
+                                <li>Applied Material</li>
+                                <li>Allergan</li>
+                                <li>AirAsia</li>
+                                <li>Avery Dennison</li>
+                                <li>Coca-Cola Company</li>
+                                <li>Collabera Technologies Pvt. Ltd.</li>
+                                <li>CSIRO</li>
+                                <li>Dell EMC</li>
+                                <li>DuPont</li>
+                                <li>Duke Energy</li>
+                                <li>Ericsson</li>
+                                <li>Embraer</li>
+                                <li>ezDI, Inc.</li>
+                                <li>FedEx Services</li>
+                                <li>Fujitsu</li>
+                                <li>GEIT-Chaitanya Group</li>
+                                <li>GSL Labs</li>
+                                <li>The Goodyear Tire & Rubber Co.</li>
+                                <li>Heatcraft Worldwide Refrigeration (Lennox)</li>
+                                <li>Hitachi America Ltd.</li>
+                                <li>Hero Cycles Limited</li>
+                                <li>Huawei Technologies Co., Ltd.</li>
+                                <li>IBM</li>
+                                <li>Intel Corporation</li>
+                                <li>Kaneka Americas Holding Inc.</li>
+                                <li>KLA-Tencor Corp.</li>
+                                <li>Lancaster University</li>
+                                <li>Mitsubishi Corporation (Americas)</li>
+                                <li>Mphasis</li>
+                                <li>Nestle Purina PetCare</li>
+                                <li>Otter Products, LLC</li>
+                                <li>PayPal</li>
+                                <li>Porto Business School</li>
+                                <li>Renault SAS</li>
+                                <li>Sanyo Chemical Industries, Ltd.</li>
+                                <li>SAP AG</li>
+                                <li>Siemens</li>
+                                <li>Solix Technologies</li>
+                                <li>Standard Chartered Bank</li>
+                                <li>Tata Steel Limited</li>
+                                <li>Tech Mahindra</li>
+                                <li>Toyota Motor North America (TMNA)</li>
+                                <li>thyssenkrupp AG</li>
+                                <li>Tyco International</li>
+                                <li>VF Corporation</li>
+                                <li>VMware</li>
+                                <li>Wipro Technologies</li>
+                                <li>W. L. Gore & Associates, Inc</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/framework7/3.5.2/js/framework7.min.js'></script>
+    <script>
+        var app = new Framework7({
+            root: '#app',
+            name: 'My App',
+            id: 'com.myapp.test',
+            routes: [{
+                path: '/about',
+                url: 'screens/about.html',
+            }, ],
+        });
+        var mainView = app.views.create('.view-main');
+    </script>
+</body>
+
+</html>
