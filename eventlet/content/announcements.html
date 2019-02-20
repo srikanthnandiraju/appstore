@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>[Eventlet]</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/framework7/3.5.2/css/framework7.min.css'>
+    <style>
+        .page-content {
+            background: #efefef;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="statusbar"></div>
+        <div class="view view-main">
+            <div data-name="home" class="page">
+                <div class="navbar no-shadow">
+                    <div class="navbar-inner">
+                        <div class="title">Announcement</div>
+                    </div>
+                </div>
+                <div class="page-content">
+                    <div class="block">
+                        <div class="timeline">
+                            <!-- Timeline item -->
+                            <div class="timeline-item">
+                                <div class="timeline-item-date">21 <small>DEC</small></div>
+                                <div class="timeline-item-divider"></div>
+                                <div class="timeline-item-content">Event date finalized. Please signup to attend</div>
+                            </div>
+                            <!-- Timeline item with inner -->
+                            <div class="timeline-item">
+                                <div class="timeline-item-date">22 <small>JAN</small></div>
+                                <div class="timeline-item-divider"></div>
+                                <div class="timeline-item-content">
+                                    <div class="timeline-item-inner">Speakers finalized. Started working on the brochure
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-item-date">22 <small>Feb</small></div>
+                                <div class="timeline-item-divider"></div>
+                                <div class="timeline-item-content">
+                                    <div class="timeline-item-inner">Moble app design ready for review and testing.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/framework7/3.5.2/js/framework7.min.js'></script>
+    <script>
+        var app = new Framework7({
+            root: '#app',
+            name: 'My App',
+            id: 'com.myapp.test',
+            routes: [{
+                path: '/about',
+                url: 'screens/about.html',
+            }, ],
+        });
+        var mainView = app.views.create('.view-main');
+    </script>
+</body>
+
+</html>
