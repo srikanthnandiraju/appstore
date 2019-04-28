@@ -1,0 +1,123 @@
+<style>
+    #navbar,
+    #menu-toggle {
+        cursor: pointer;
+    }
+</style>
+
+<template id="landing-menu">
+    <h4 class="ui icon header center aligned inverted">
+        <i class="heart outline icon teal"></i>
+        <div class="content">
+            Touch A Life
+            <div class="sub header">Foundation.</div>
+        </div>
+    </h4>
+    <a class="item" href="#/agenda">Event Agenda
+        <i class="clock outline icon"></i>
+    </a>
+
+    <a class="item" href="#/cats">Need Categories
+        <i class="clone outline icon"></i>
+    </a>
+    <a class="item" href="#/gifts">Gifts
+        <i class="gift icon"></i>
+    </a>
+    <a class="item" href="#/saved-items">Saved Items
+        <i class="list alternate outline icon"></i>
+    </a>
+    <a class="item" href="#/news">News
+        <i class="newspaper icon"></i>
+    </a>
+    <a class="item" href="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NPAMJ6LNWSZYE','_system');">Donate
+        <i class="heart outline icon"></i>
+    </a>
+    <a class="item" href="#/volunteer">Volunteer Messages
+        <i class="chat outline icon"></i>
+    </a>
+
+    <a class="item" href="javascript:App.Utils.showInBrowser('https://smile.amazon.com/');">Amazon Smile
+        <i class="image outline icon"></i>
+    </a>
+</template>
+
+<script>
+    function land() {
+
+        Path.map("#/cats").to(function() {
+            $("#title-text").html("Categories");
+            $("#stage").load(App.base_url + "screens/cats.html");
+        });
+
+        Path.map("#/agenda").to(function() {
+            $("#title-text").html("Event Agenda");
+            $("#stage").load(App.base_url + "screens/agenda.html");
+        });
+
+        Path.map("#/gifts").to(function() {
+            $("#title-text").html("GIFTS");
+            $("#stage").load(App.base_url + "screens/gifts.html");
+        });
+
+        Path.map("#/news").to(function() {
+            $("#title-text").html("Touch A Life");
+            $("#stage").load("screens/news.html");
+        });
+
+        Path.map("#/saved-items").to(function() {
+            $("#title-text").html("Saved Items");
+            $("#stage").load("screens/saved-items.html");
+        });
+
+        Path.map("#/volunteer").to(function() {
+            $("#title-text").html("Volunteer");
+            $("#stage").load("screens/volunteer.html");
+        });
+
+        Path.root("#/gifts");
+        Path.listen();
+
+        $(".side-menu-items").html($("#landing-menu").html());
+        // Need this to handle event on generated links
+
+
+        // Brute force fix for menu toggle
+        $(document).on('click', '#navbar', function() {
+            App.sidenav.open();
+        });
+        $(document).on('click', '#menu-toggle', function() {
+            App.sidenav.open();
+        });
+        $(document).on('click', '#title-text', function() {
+            App.sidenav.open();
+        });
+        // --------------------------------------------
+
+        $('.side-menu-items').on('click', '.item', function() {
+            App.Events.emit("hide-side-nav");
+        });
+    }
+
+
+    $(function() {
+        $("#title-text").html("TouchALife");
+        if (!App.landed) {
+            App.landed = true;
+            App.base_url = App.store_url + "app/";
+            land();
+
+            setTimeout(function() {
+                window.location.href = "#/cats";
+                if (!App.fast_click_enabled) {
+                    FastClick.attach(document.body);
+                    App.fast_click_enabled = true;
+                }
+            }, 2000);
+
+            // if (!App.fast_click_enabled) {
+            //     FastClick.attach(document.body);
+            //     App.fast_click_enabled = true;
+            // }
+        }
+    });
+</script>
