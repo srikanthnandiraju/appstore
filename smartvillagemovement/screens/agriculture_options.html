@@ -1,0 +1,74 @@
+<div class="animated fadeInUp faster">
+    <br>
+    <div class="ui center aligned basic segment">
+        <h3 class="ui header">
+            Agruculture related apps
+            <div class="sub header">Select the app of your interest.
+            </div>
+            <br>
+            <!-- <div class="ui button blue" id="create-settings-item">Add Topic</div>
+            <div class="ui button orange" id="customize-feed">Customize Feed</div> -->
+        </h3>
+    </div>
+
+    <div class="ui container">
+        <div class="ui segment blue center clearing touch-link" data-show-screen="">
+            <h4 class="ui header left aligned blue">
+                <i class="trophy orange icon"></i>
+                <div class="content">
+                    Soil Advice
+                    <div class="sub header">Get Advice on your soil condition</div>
+                </div>
+            </h4>
+        </div>
+        <div class="ui segment red center clearing touch-link">
+            <h4 class="ui header left aligned blue">
+                <i class="car blue icon"></i>
+                <div class="content">
+                    Equipment
+                    <div class="sub header">Farm equipment management</div>
+                </div>
+            </h4>
+        </div>
+        <div class="ui segment green center clearing touch-link" data-show-screen="#/agri_apps">
+            <h4 class="ui header left aligned blue">
+                <i class="list green icon"></i>
+                <div class="content">
+                    Agri Inputs
+                    <div class="sub header">Inputs on Agri</div>
+                </div>
+            </h4>
+        </div>
+        <div class="ui segment teal center clearing touch-link">
+            <h4 class="ui header left aligned blue">
+                <i class="shopping basket teal icon"></i>
+                <div class="content">
+                    Market
+                    <div class="sub header">Buy and sell equipment</div>
+                </div>
+            </h4>
+        </div>
+        <div class="ui segment orange center clearing touch-link">
+            <h4 class="ui header left aligned orange">
+                <i class="lightbulb basket orange  icon"></i>
+                <div class="content">
+                    Advice
+                    <div class="sub header">General advice</div>
+                </div>
+            </h4>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $(".touch-link").off('click').on('click', function() {
+            var screen = $(this).attr("data-show-screen");
+            console.log(screen);
+            if (screen) {
+                window.location.href = screen;
+            }
+        });
+    });
+</script>

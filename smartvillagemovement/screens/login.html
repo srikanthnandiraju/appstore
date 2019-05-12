@@ -1,0 +1,62 @@
+<style>
+    #login-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #f5f5f5;
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        z-index: 9999;
+    }
+    
+    #login-wrapper .form-holder {
+        background: white;
+        padding: 20px;
+        margin: 10px;
+        box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+</style>
+<div id="login-wrapper">
+    <form class="ui form form-holder">
+        <div class="ui center aligned basic segment">
+            <br>
+            <span class="ui label top pointing">
+                Download and install the F5 VPN app from Airwatch to access full functionality of this app.
+            </span>
+            <br>
+            <br>
+            <button class="ui blue button" id="login-button">SSO LOGIN</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function demoLogin() {
+        var loggedin_user = {
+            "token": "eyJhbGciOiJIUzI1NiJ9.c25hbmRpcmFqdUBwYXlwYWwuY29t.B4k_hUTiciC1CKkE3MlRtInk7TB7LkEfcbWrQUea90M",
+            "firstname": "Srikanth",
+            "lastname": "Nandiraju",
+            "department": "Innovation",
+            "email": "snandiraju@paypal.com",
+            "user_type": "1",
+            "id": "1"
+        }
+        App.Events.emit("user-logged-in", loggedin_user);
+    }
+
+    $(function () {
+
+        //$(".close").hide();
+        // SSO LOGIN FLOW
+        $("#login-button").click(function (e) {
+            e.preventDefault();
+            //demoLogin();
+            App.FullScreen.hide();
+        });
+
+    });
+</script>

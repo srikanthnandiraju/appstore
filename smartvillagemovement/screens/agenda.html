@@ -1,0 +1,104 @@
+<style>
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+        .tablet-pad {
+            padding: 20px !important;
+        }
+    }
+    
+    @media (min-width: 600px) {
+        .tablet-pad {
+            padding: 20px !important;
+        }
+    }
+</style>
+
+<div id="agenda-screen-wrapper" class="screen-wrapper tablet-pad">
+    <div class="ui container fluid animated fadeInUp" id="agenda-screen-holder" style="padding:15px;">
+    </div>
+</div>
+
+<template id="agenda-cards-template">
+    {{#items}}
+
+    {{#isActivity}}
+    <div class="ui segment orange">
+        <span class="ui label ribbon blue"><i class="clock outline icon"></i>{{datetime}}</span>
+        <h3 class="ui header" style="margin-top:5px;">
+            {{title}}
+            <div class="sub header">
+                {{subtitle}}
+            </div </h3> </div> {{/isActivity}} {{#isHeader}} <div classx="ui segment stacked teal">
+            <h2 class="ui header center aligned">{{title}}</h2>
+    </div>
+    {{/isHeader}}
+
+    {{#isSession}}
+
+    <div class="ui card fluid raised">
+        <div class="content">
+            <h3 class="ui header">{{title}}</h3>
+            <p style="margin-top:-10px;" class="ui label blue ribbon"><i class="clock outline icon"></i>{{datetime}}</p>
+        </div>
+
+        <div class="content">
+
+            {{#speaker_photo}}
+            <img class="left floated mini ui image" src="{{speaker_photo}}" style="width:80px;">
+            {{/speaker_photo}}
+
+            <div class="header">
+                {{speaker_name}}
+            </div>
+
+            {{#speaker_title}}
+            <div class="meta">
+                {{speaker_title}}
+            </div>
+            {{/speaker_title}}
+
+            {{#speaker_bio}}
+            <div class="description">
+                {{speaker_bio}}
+            </div>
+            {{/speaker_bio}}
+
+        </div>
+
+        <div class="extra content">
+            <span class="right floated">
+                <i class="heart outline like icon"></i>
+                Fav
+            </span>
+            <span onclick="javascript:App.Events.emit('show-notes-forn');"><i class="edit icon"></i> Add Notes</span>
+        </div>
+    </div>
+
+    {{/isSession}}
+
+    {{/items}}
+</template>
+
+<script type="text/javascript">
+    $(function () {
+        var agenda = Data.tabletop.sheets(Data.table_names[0]).all();
+        renderView(agenda);
+
+        function renderView(items) {
+            for (var i = 0; i < items.length; i++) {
+                var one_item = items[i];
+                console.log(one_item.c_type);
+                one_item.isHeader = one_item.content_type == "heading" ?
+                    true : false;
+                one_item.isSession = one_item.content_type == "session" ? true : false;
+                one_item.isActivity = one_item.content_type == "activity" ?
+                    true : false;
+            }
+            App.Utils.loadTemplateToHolder('#agenda-cards-template', '#agenda-screen-holder', {
+                items: agenda
+            });
+        }
+
+
+
+    });
+</script>

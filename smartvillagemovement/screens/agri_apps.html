@@ -1,0 +1,53 @@
+<style>
+    .app-segment {
+        min-width: 150px;
+        min-height: 100px;
+    }
+    
+    .app-segment>img {
+        width: 100px !important;
+    }
+</style>
+<div id="agri_apps" style="margin-top:10px;">
+    <div class="ui container animated fadeInUp faster">
+        <div class="ui center aligned basic segment">
+            <h3 class="ui header">
+                Smart Village Certified
+                <div class="sub header">Partner apps.
+                </div>
+            </h3>
+        </div>
+        <div class="ui three column doubling grid container center aligned">
+            <div class="column launch-app-card" data-app-url="https://bit.ly/2ZSeCWs">
+                <div class="ui segment center aligned app-segment stacked blue">
+                    <img class="ui centered image big" src="https://lh3.googleusercontent.com/C1mreiQG496KZC1xT2gUBd5-UxMv9d2X_57hoD5an-g56e4h2kVrH-sJBfyE03TH0g">
+                    <h2 class="ui header">
+                        <div class="content">
+                            BigHaat
+                        </div>
+                    </h2>
+                </div>
+            </div>
+            <div class="column launch-app-card" data-app-url="https://play.google.com/store/apps/details?id=com.napanta.farmer.app">
+                <div class="ui segment center aligned app-segment stacked orange">
+                    <img class="ui centered big image" src="http://www.napanta.com/images/napanta-logo.png">
+                    <h2 class="ui header">
+                        <div class="content">
+                            Naa Panta
+                        </div>
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $(".launch-app-card").off('click').on('click', function() {
+            var app_url = $(this).attr("data-app-url");
+            if (app_url) {
+                window.open(app_url, "_system");
+            }
+        });
+    });
+</script>

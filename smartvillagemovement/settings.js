@@ -1,3 +1,4 @@
 App.settings = {
-    version: 0
+    version: 1,
+    topics: []
 };

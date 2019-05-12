@@ -1,0 +1,77 @@
+<style>
+
+</style>
+<div id="agenda-screen-wrapper" class="screen-wrapper">
+
+    <div style="background:#fff;padding:20px;" class="animated fadeInDown fast">
+        <img src="img/smv.png" alt="" class="ui centered image medium">
+    </div>
+    <div class="ui container fluid" id="agenda-screen-holder" style="margin:20px 4px;">
+
+        <div class="ui basic segment center aligned">
+            <h3 class="ui header animated fadeInLeft">
+                APPLICATION
+                <div class="sub header">categories.</div>
+            </h3>
+            <br>
+        </div>
+    </div>
+
+    <div class="ui three column doubling grid container center aligned">
+        <div class="column">
+            <div class="grad-bg animated bounceInUp blue-grad" onclick="window.locaton.href='#/agriculture_options'">
+                <i class="lemon  icon big icon-in-card"></i>
+                <h3 class="ui header center aligned inverted">
+                    <div class="content">
+                        Agruculture
+                    </div>
+                </h3>
+            </div>
+        </div>
+        <div class="column">
+            <div class="grad-bg animated bounceInUp red-grad" onclick="App.Events.emit('show-healthcare-options');">
+                <i class="hospital outline icon big icon-in-card"></i>
+                <h3 class="ui header center aligned inverted">
+                    <div class="content">
+                        Healthcare
+                    </div>
+                </h3>
+            </div>
+        </div>
+        <div class="column">
+            <div class="grad-bg animated bounceInUp pink-grad">
+                <i class="list alternate outline icon big icon-in-card"></i>
+                <h3 class="ui header center aligned inverted">
+                    <div class="content">
+                        PDC
+                    </div>
+                </h3>
+            </div>
+        </div>
+        <div class="column">
+            <div class="grad-bg animated bounceInUp lime-grad">
+                <i class="heart outline like icon big icon-in-card"></i>
+                <h3 class="ui header center aligned inverted">
+                    <div class="content">
+                        Other
+                    </div>
+                </h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+<template id="agenda-cards-template" type="text/template">
+    {{#items}}
+    <div class="ui card fluid raised" style="margin-top:10px;">
+    </div>
+    {{/items}}
+</template>
+<script type="text/javascript">
+    $(function() {
+        // var agenda = Data.tabletop.sheets(Data.table_names[0]).all();
+        // App.Utils.loadTemplateToHolder('#agenda-cards-template', '#agenda-screen-holder', {
+        //     items: agenda
+        // });
+    });
+</script>

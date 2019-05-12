@@ -1,0 +1,74 @@
+<style>
+    #settings-form-wrapper {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<div id="settings-form-wrapper" class="ui container">
+    <div class="ui segment padded raised animated fadeInUp" style="width:380px;">
+        <div style="padding:5px 20px;margin:auto;text-align:center;position:relative">
+            <h3 class="ui header">
+                Enter your Notes.
+                <div class="sub header">Retrive them from the notes link.</div>
+            </h3>
+            <br>
+            <!-- <img src="img/placeholder.png" id="mood-image" class="animated pulse infinite"> -->
+        </div>
+
+        <div class="ui form">
+            <div class="field">
+                <div class="ui input left icon">
+                    <i class="newspaper outline icon"></i>
+                    <input type="text" id="new-notes-title" placeholder="Enter notes title">
+                </div>
+            </div>
+            <div class="field">
+                <textarea rows="2" id="new-notes-text" placeholder="Enter notes"></textarea>
+            </div>
+
+            <div class="field center aligned">
+                <div style="text-align:center;">
+                    <button class="ui button fluid blue" id="save-settings-button">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+
+        var negative_emotion = 0;
+        $("#positive-negative").checkbox({
+            onChange: function () {
+                var $input = $(this);
+                var checked = $input.is(":checked");
+                if (checked) {
+                    negative_emotion = 1;
+                } else {
+                    negative_emotion = 0;
+                }
+            }
+        });
+
+        $("#save-settings-button").off('click').on('click', function () {
+            var notes_text = $("#new-notes-text").val();
+            if (notes_text != undefined) {
+                var id_time = Date.now();
+                var new_type = {
+                    notes_title: $("#new-notes-title").val(),
+                    notes_text: notes_text,
+                    id: id_time,
+                    created_at: id_time
+                };
+                App.Events.emit("new-notes-created", new_type);
+                App.FullScreen.hide();
+            }
+        });
+
+    });
+</script>

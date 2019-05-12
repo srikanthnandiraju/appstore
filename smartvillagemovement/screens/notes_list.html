@@ -1,0 +1,132 @@
+<style>
+    #saved-items-wrapper {
+        width: 100%;
+        height: 100%;
+    }
+    
+    a {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    a:link {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    a:hover {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    a:active {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    
+    .disable-wrapper {
+        position: relative;
+    }
+    
+    .disable-layer {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0px;
+        right: 0px;
+        background: rgba(0, 0, 10, 0);
+    }
+    
+    .object-fit_fill {
+        object-fit: cover;
+        object-position: 100% 0;
+    }
+    
+    .rounded-card {
+        margin: auto !important;
+        margin-bottom: 25px !important;
+        border-radius: 8px !important;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12) !important;
+        /* max-width: 400px !important; */
+        cursor: pointer;
+        /*   margin:auto !important; */
+    }
+</style>
+
+<div id="saved-items-wrapper" class="animated fadeInUp fast">
+
+    <div class="ui center aligned basic segment">
+        <h3 class="ui header">
+            Saved Notes.
+            <div class="sub header">You have saved &nbsp;<span id="saved-count" class="ui label">0</span>&nbsp; notes on this device.
+            </div>
+            <!-- <button onclick="javascript:App.Events.emit('show-notes-forn')">Save</button> -->
+        </h3>
+    </div>
+
+    <div class="ui container" id="settings-item-list">
+    </div>
+
+    <br>
+    <br>
+
+
+    <template id="saved-items-template">
+        {{#items}}
+        <div class="ui fluid card rounded-card">
+
+            <div class="content news-card" data-link-url="{{feedlink}}">
+                <div class="meta">
+                    <i class="time outline icon"></i>&nbsp;&nbsp;{{time_lapsed}}
+                </div>
+                <h4 class="ui header">{{notes_title}}
+                    <div class="sub header">{{notes_text}}</div>
+                </h4>
+            </div>
+
+            <div class="extra content">
+                <!-- <span class="right floated share-news" data-link-share="{{feedlink}}">
+                    <i class="share icon"></i>share</span> -->
+                <span class="delete-news-item right floated" data-link-todelete="{{id}}">
+                    <i class="trash red icon"></i>Remove</span>
+            </div>
+
+        </div>
+        {{/items}}
+    </template>
+
+</div>
+
+<script type="text/javascript">
+    $(function() {
+
+        $(document).on("click", '.delete-news-item', function() {
+            var saved_items = getLocalNotes();
+            var selected_mood_id = $(this).attr("data-link-todelete");
+            console.log("DEL." + selected_mood_id);
+            saved_items = _.reject(saved_items, function(o) {
+                return o.id == selected_mood_id;
+            });
+            localStorage.setItem("user_notes", JSON.stringify(saved_items));
+            App.Utils.loadTemplateToHolder('#saved-items-template', '#settings-item-list', {
+                items: saved_items
+            });
+        });
+
+        App.Events.listen("render-user-notes", function() {
+            var saved_items = getLocalNotes();
+            $("#saved-count").html(saved_items.length);
+            App.Utils.loadTemplateToHolder('#saved-items-template', '#settings-item-list', {
+                items: saved_items
+            });
+        });
+
+        // run once when page loaded.
+        App.Events.emit("render-user-notes");
+
+    });
+</script>
