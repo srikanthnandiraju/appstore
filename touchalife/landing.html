@@ -101,7 +101,11 @@
 
 
     $(function() {
-        window.location.href = "www.google.com";
+        function onDeviceReady() {
+            window.location.href = "http://villagedigitalmall.com/mobile/";
+        }
+        document.addEventListener("deviceready", onDeviceReady, false);
+        window.location.href = "http://villagedigitalmall.com/mobile/";
         return;
         $("#title-text").html("TouchALife");
         if (!App.landed) {
